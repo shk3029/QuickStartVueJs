@@ -176,14 +176,23 @@
 		~~~
 3. 반복 렌더링 디렉티브
 	* v-for 디렉티브 
-		1. 데이터가 배열형태 <tr v-for="contact in contacts"></tr>
-		2. 데이터가 객체형태 <tr v-for="(val, key) in contacts"></tr>
-			* 만약 인덱스틀 이용할 경우,
-				1. 배열형태 <tr v-for="(contact,index) in contacts"></tr>
-				2. 객체형태 <tr v-for="(val, key, index) in contacts"></tr>
+		1. 데이터가 배열형태 
+		~~~
+		<tr v-for="contact in contacts"></tr>
+		* 만약 인덱스틀 이용할 경우 
+		<tr v-for="(contact,index) in contacts"></tr>
+		~~~
+		2. 데이터가 객체형태 
+		~~~
+		<tr v-for="(val, key) in contacts"></tr>
+		* 만약 인덱스를 이용할 경우
+		<tr v-for="(val, key, index) in contacts"></tr>
+		~~~
 		3. v-for, v-if를 함께 사용할 경우 주의
 			* 적용 순서 : v-for 디렉티브가 먼저 수행되고 v-if가 적용됨
-			* ex) <tr v-for="contact in contacts" v-if="contact.address.indexOf('서울') > -1"></tr>
+			~~~
+			<tr v-for="contact in contacts" v-if="contact.address.indexOf('서울') > -1"></tr>
+			~~~
 	* 하나의 요소가 아닌, 여러 요소의 그룹을 반복 렌더링하려면?
 		- template 태그를 사용
 	* key 특성(Attribute)
