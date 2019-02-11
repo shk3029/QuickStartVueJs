@@ -189,7 +189,6 @@
 	* key 특성(Attribute)
 		- DOM 요소의 위치를 직접 변경하고자 한다면,
 		- key 특성에 기본키(Primary key) 값을 바인딩 
-		- ex) 
 		~~~
 		<template v-for="(contact, index) in contacts">
 			<tr :key="contact.no">
@@ -212,7 +211,35 @@
 	* v-once
 		- HTML 요소를 단 1번만 렌더링 (콘솔로 값을 변경하여도 안바뀜) - 초기값이 주어지면 변경되지 않는 UI를 만들 때 사용할 수 있음
 5. 계산형 속성
-	* 
+	* Vue 객체의 computed 속성과 함께 함수로 등록해두면 마치 속성처럼 사용할 수 있음
+	~~~
+	<div id="example">
+			<input type="text" v-model="num" /><br/> 1 ~ n 입력된 수의 합 : <span>{{sum}}</span>
+	</div>
+	<script type="text/javascript">
+			var vmSum = new Vue({
+					el: "#example",
+					data: {
+							num: 0
+					},
+					computed: {
+							sum: function() {
+									var n = Number(this.num);
+									if (Number.isNaN(n) || n < 1) return 0;
+									return ((1 + n) * n) / 2;
+							}
+					}
+			})
+	</script>	
+	~~~
+	* 주의사항
+		1. 함수 내부의 this
+			- 함수 안의 this는 Vue 객체 자신을 참조
+			- 함수 내부에서 다른 콜백 함수를 실행했을 때 this가 다른 값으로 연결될 수 있으므로 주의
+		2. 데이터 타입
+			- HTML 요소 내부에서는 모두 문자열로 다루어지므로, Number(), parseInt() 함수를 이용해 명시적으로 숫자 값을 변환해주어야 한다.
+### 3. Vue 
+	
 	
 
 					
