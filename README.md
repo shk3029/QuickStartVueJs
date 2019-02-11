@@ -116,32 +116,32 @@
 		- 양방향 디렉티브 : 요소에서 변경한 값이 모델 객체에 반영이 됨
 		~~~
 		<body>
-				<div id="simple1">
-						<div> 좋아하는 과일을 모두 골라주세요. </div>
-						<input type="checkbox" value="1" v-model="fruits"> 사과,
-						<input type="checkbox" value="2" v-model="fruits"> 키위,
-						<input type="checkbox" value="3" v-model="fruits"> 포도,
-						<input type="checkbox" value="4" v-model="fruits"> 수박,
-						<input type="checkbox" value="5" v-model="fruits"> 참외,
-				</div>
-				<div id="simple2">
-						선택한 과일들 : <span v-html="fruits"></span>
-				</div>
-				<script type="text/javascript">
-						var model = {
-								fruits: []
-						};
+		<div id="simple1">
+			<div> 좋아하는 과일을 모두 골라주세요. </div>
+			<input type="checkbox" value="1" v-model="fruits"> 사과,
+			<input type="checkbox" value="2" v-model="fruits"> 키위,
+			<input type="checkbox" value="3" v-model="fruits"> 포도,
+			<input type="checkbox" value="4" v-model="fruits"> 수박,
+			<input type="checkbox" value="5" v-model="fruits"> 참외,
+		</div>
+		<div id="simple2">
+			선택한 과일들 : <span v-html="fruits"></span>
+		</div>
+		<script type="text/javascript">
+			var model = {
+					fruits: []
+			};
 
-						var simple1 = new Vue({
-								el: '#simple1',
-								data: model
-						});
+			var simple1 = new Vue({
+					el: '#simple1',
+					data: model
+			});
 
-						var simple2 = new Vue({
-								el: '#simple2',
-								data: model
-						});
-				</script>
+			var simple2 = new Vue({
+					el: '#simple2',
+					data: model
+			});
+		</script>
 		</body>
 		</html>
 		~~~
@@ -159,21 +159,82 @@
 		2. 예제
 		~~~
 		<div id="account">
-			잔고 : <input type="text" v-model="balance" />
-			<br/> 회원 등급 : <span v-if="balance >= 1000000">Gold</span>
-			<span v-else-if="balance >= 500000">Silver</span>
-			<span v-else-if="balance >= 200000">Bronze</span>
-			<span v-else>Basic</span>
-    </div>
-    <script type="text/javascript">
-        var simple = new Vue({
-            el: "#account",
-            data: {
-                balance: 0
-            }
-        })
-    </script>
+		잔고 : <input type="text" v-model="balance" />
+		<br/> 회원 등급 : <span v-if="balance >= 1000000">Gold</span>
+		<span v-else-if="balance >= 500000">Silver</span>
+		<span v-else-if="balance >= 200000">Bronze</span>
+		<span v-else>Basic</span>
+   		 </div>
+		<script type="text/javascript">
+			var simple = new Vue({
+			    el: "#account",
+			    data: {
+				balance: 0
+			    }
+			})
+		</script>
 		~~~
+3. 반복 렌더링 디렉티브
+	* v-for 디렉티브 
+		1. 데이터가 배열형태 <tr v-for="contact in contacts"></tr>
+		2. 데이터가 객체형태 <tr v-for="(val, key) in contacts"></tr>
+			* 만약 인덱스틀 이용할 경우,
+				1. 배열형태 <tr v-for="(contact,index) in contacts"></tr>
+				2. 객체형태 <tr v-for="(val, key, index) in contacts"></tr>
+		3. v-for, v-if를 함께 사용할 경우 주의
+			* 적용 순서 : v-for 디렉티브가 먼저 수행되고 v-if가 적용됨
+			* ex) <tr v-for="contact in contacts" v-if="contact.address.indexOf('서울') > -1"></tr>
+	* 하나의 요소가 아닌, 여러 요소의 그룹을 반복 렌더링하려면?
+		- <template> 태그를 사용
+	* key 특성(Attribute)
+		- DOM 요소의 위치를 직접 변경하고자 한다면,
+		- key 특성에 기본키(Primary key) 값을 바인딩 
+		- ex) 
+		~~~
+		<template v-for="(contact, index) in contacts">
+			<tr :key="contact.no">
+				<td>{{contact.no}}></td>
+				<td>{{contact.name}}></td>
+				<td>{{contact.tel}}></td>
+			</tr>		
+		</template>
+		~~~
+		- 일반적으로 key 특성을 바인딩할 것을 권장하지만, 렌더링 속도가 개선된다고 말할 수는 없음
+		- v-for 디렉티브는 주로 배열의 데이터를 출력할 것인데, 배열 데이터가 변경될 때 추적이 되지 않는 작업이 있음
+			1. 배열 데이터를 인덱스 번호로 직접 변경할 경우 
+				- ex) list.contact[0] = {no:12, name:"12" ~~~}
+				- 이렇게 콘솔에서 변경해도 아무변화가 없음
+				- 하지만 속성을 변경할 경우, Vue 인스턴스 내부의 감시자가 추적해내기 때문에 즉시 변경됨 (list.contact[0].name = 'js')
+				- 기존의 배열 값을 직접 변경하기 위해서는 Vue.set(list.contact, 0, {no:12, name="12"~~~}로 변경해야함
+4. 기타 디렉티브
+	* v-pre 
+		- HTML 요소에 대한 컴파일을 수행하지 않음
+	* v-once
+		- HTML 요소를 단 1번만 렌더링 (콘솔로 값을 변경하여도 안바뀜) - 초기값이 주어지면 변경되지 않는 UI를 만들 때 사용할 수 있음
+5. 계산형 속성
+	* 
+	
+
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
