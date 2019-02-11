@@ -77,13 +77,112 @@
 
   ~~~
 2. 기본 디렉티브
-  * v-text, v-html 디렉티브
+	* v-text, v-html 디렉티브
     - 선언적 렌더링을 위해 HTML 요소 내부 템플릿 표현식(콧수염 표현식)이외에 디렉티브라는 것을 이용해 표현할 수 있음
+		- 단방향 디렉티브 (HTML 요소에서 값을 변경하여도 모델 객체의 값은 안바뀜)
     ~~~
     Before) <h2>{{message}}</h2>
     After) <h2 v-text="message"></h2>
     ~~~
-  * 
+      - v-text, {{ }} : innerText 속성에 연결, 태그 문자열을 HTML 인코딩하여 나타내기 때문에 화면에는 태그 문자열이 그대로 나타남
+        ~~~
+        > model.message = "<i>HTML 태그는 어찌 되나?</i>"; 
+        > document.getElementById("simple").innerHTML
+        ->> "<h2>&lt;i&gt;HTML 태그는 어찌 되나?&lt;/i&gt;</h2>"
+        ~~~
+      - v-html : innerHTML 속성에 연결, 문자열을 파싱하여 화면에 나타냄 
+        ~~~
+        > model.message = "<i>HTML 태그는 어찌 되나?</i>"; 
+        > document.getElementById("simple").innerHTML
+        ->> "<h2><i>HTML 태그는 어찌 되나?</i></h2>"
+        ~~~
+    - v-html은 script 태그를 그대로 바인딩하므로 XSS(Cross Site Scripting) 공격에 취약함, 꼭 필요한 경우가 아니면 v-text 사용을 권장
+	* v-bind 디렉티브
+		- 요소 객체의 컨텐트 영역이 아닌 속성들을 바인딩
+		- 단방향 디렉티브 (HTML 요소에서 값을 변경하여도 모델 객체의 값은 안바뀜)
+		~~~
+		<input id="a" type="text" v-bind:value="message">
+		<br/>
+		<img v-bind:src="imagePath" />
+		
+		<script>
+		 var model = {
+					message: 'v-bind 디렉티브.',
+					imagePath: "http://sample.bmaster.kro.kr/photos/61.jpg"
+			};
+		~~~
+		- v-bind:src에서 v-bind를 생략하고 :src로 사용가능
+	* v-model 디렉티브
+		- 양방향 디렉티브 : 요소에서 변경한 값이 모델 객체에 반영이 됨
+		~~~
+		<body>
+				<div id="simple1">
+						<div> 좋아하는 과일을 모두 골라주세요. </div>
+						<input type="checkbox" value="1" v-model="fruits"> 사과,
+						<input type="checkbox" value="2" v-model="fruits"> 키위,
+						<input type="checkbox" value="3" v-model="fruits"> 포도,
+						<input type="checkbox" value="4" v-model="fruits"> 수박,
+						<input type="checkbox" value="5" v-model="fruits"> 참외,
+				</div>
+				<div id="simple2">
+						선택한 과일들 : <span v-html="fruits"></span>
+				</div>
+				<script type="text/javascript">
+						var model = {
+								fruits: []
+						};
+
+						var simple1 = new Vue({
+								el: '#simple1',
+								data: model
+						});
+
+						var simple2 = new Vue({
+								el: '#simple2',
+								data: model
+						});
+				</script>
+		</body>
+		</html>
+		~~~
+		- 하나의 모델을 2개의 Vue 객체에서 참조 
+		- 사용자 입력 값을 뷰모델 객체를 통해 즉시 변경
+		- v-model 디렉티브 수식어
+			* lazy (v-model.lazy="name") : 입력폼에서 이벤트가 발생할 때, 입력한 값을 데이터와 동기화 
+			* number : 숫자가 입력된 경우 number 타입의 값으로 자동 형변환
+			* trim : 문자열 앞뒤 공백을 자동제거
+	* v-show, v-if, v-else, v-else-if 디렉티브
+		1. v-if : v-show 디렉티브와 비슷한 기능, 렌더링 여부 차이가 있음
+			- v-if 디렉티브는 조건에 부합되지 않으면 렌더링을 하지 않음
+			- v-show는 일단 HTML 요소를 렌더링 한 후, display 스타일 속성으로 보여줄지 여부를 결정
+			- 따라서, 자주 화면이 변경되는 부분에서는 v-if 디렉티브보다는 v-show 디렉티브를 사용하는 것이 바람직함
+		2. 예제
+		~~~
+		<div id="account">
+			잔고 : <input type="text" v-model="balance" />
+			<br/> 회원 등급 : <span v-if="balance >= 1000000">Gold</span>
+			<span v-else-if="balance >= 500000">Silver</span>
+			<span v-else-if="balance >= 200000">Bronze</span>
+			<span v-else>Basic</span>
+    </div>
+    <script type="text/javascript">
+        var simple = new Vue({
+            el: "#account",
+            data: {
+                balance: 0
+            }
+        })
+    </script>
+		~~~
+
+
+
+
+
+
+
+
+
 
 
 
