@@ -115,6 +115,7 @@
 	* v-model 디렉티브
 		- 양방향 디렉티브 : 요소에서 변경한 값이 모델 객체에 반영이 됨
 		~~~
+	
 		<body>
 		<div id="simple1">
 			<div> 좋아하는 과일을 모두 골라주세요. </div>
@@ -144,6 +145,7 @@
 		</script>
 		</body>
 		</html>
+		
 		~~~
 		- 하나의 모델을 2개의 Vue 객체에서 참조 
 		- 사용자 입력 값을 뷰모델 객체를 통해 즉시 변경
@@ -158,6 +160,7 @@
 			- 따라서, 자주 화면이 변경되는 부분에서는 v-if 디렉티브보다는 v-show 디렉티브를 사용하는 것이 바람직함
 		2. 예제
 		~~~
+		
 		<div id="account">
 		잔고 : <input type="text" v-model="balance" />
 		<br/> 회원 등급 : <span v-if="balance >= 1000000">Gold</span>
@@ -173,6 +176,7 @@
 			    }
 			})
 		</script>
+		
 		~~~
 3. 반복 렌더링 디렉티브
 	* v-for 디렉티브 
@@ -189,6 +193,7 @@
 	* key 특성(Attribute)
 		- DOM 요소의 위치를 직접 변경하고자 한다면,
 		- key 특성에 기본키(Primary key) 값을 바인딩 
+		
 		~~~
 		<template v-for="(contact, index) in contacts">
 			<tr :key="contact.no">
@@ -198,6 +203,7 @@
 			</tr>		
 		</template>
 		~~~
+		
 		- 일반적으로 key 특성을 바인딩할 것을 권장하지만, 렌더링 속도가 개선된다고 말할 수는 없음
 		- v-for 디렉티브는 주로 배열의 데이터를 출력할 것인데, 배열 데이터가 변경될 때 추적이 되지 않는 작업이 있음
 			1. 배열 데이터를 인덱스 번호로 직접 변경할 경우 
@@ -214,24 +220,25 @@
 	* Vue 객체의 computed 속성과 함께 함수로 등록해두면 마치 속성처럼 사용할 수 있음
 	~~~
 	<div id="example">
-			<input type="text" v-model="num" /><br/> 1 ~ n 입력된 수의 합 : <span>{{sum}}</span>
+		<input type="text" v-model="num" /><br/> 1 ~ n 입력된 수의 합 : <span>{{sum}}</span>
 	</div>
 	<script type="text/javascript">
-			var vmSum = new Vue({
-					el: "#example",
-					data: {
-							num: 0
-					},
-					computed: {
-							sum: function() {
-									var n = Number(this.num);
-									if (Number.isNaN(n) || n < 1) return 0;
-									return ((1 + n) * n) / 2;
-							}
-					}
-			})
+		var vmSum = new Vue({
+		el: "#example",
+		data: {
+			num: 0
+		},
+		computed: {
+			sum: function() {
+					var n = Number(this.num);
+					if (Number.isNaN(n) || n < 1) return 0;
+					return ((1 + n) * n) / 2;
+			}
+		}
+		})
 	</script>	
 	~~~
+	
 	* 주의사항
 		1. 함수 내부의 this
 			- 함수 안의 this는 Vue 객체 자신을 참조
