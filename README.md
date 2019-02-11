@@ -185,7 +185,7 @@
 			* 적용 순서 : v-for 디렉티브가 먼저 수행되고 v-if가 적용됨
 			* ex) <tr v-for="contact in contacts" v-if="contact.address.indexOf('서울') > -1"></tr>
 	* 하나의 요소가 아닌, 여러 요소의 그룹을 반복 렌더링하려면?
-		- <template> 태그를 사용
+		- template 태그를 사용
 	* key 특성(Attribute)
 		- DOM 요소의 위치를 직접 변경하고자 한다면,
 		- key 특성에 기본키(Primary key) 값을 바인딩 
