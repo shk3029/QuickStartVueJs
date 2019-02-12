@@ -5,7 +5,7 @@
 - View는 HTML/CSS로 작성 / ViewModel은 View의 실제 논리 및 데이터 흐름을 담당
 - View는 ViewModel만 알고 있으면 되며, 나머지는 신경쓰지 않아도 됨
 - ViewModel의 상태 데이터만 변경하면 즉시 View에 반영
-- [가상 DOM](https://blog.hanumoka.net/2018/08/15/web-20180815-web-virtual-dom/)을 지원하므로 아주 빠른 UI 랜더링 속도를 제공 
+- [가상 DOM](https://blog.hanumoka.net/2018/08/15/web-20180815-web-virtual-dom/)을 지원하므로 아주 빠른 UI 랜더링 속도를 제공
 ~~~
 * vue.js 설치
   1. Node.js 설치 - [sudo npm install -g npm]
@@ -71,7 +71,7 @@
   })
 
   View (유저 인터페이스)    ->     ViewModel(상태와 연산)  ->   Model(도메인 특화 데이터)
-                데이터바인딩과 커맨드                   업데이트 
+                데이터바인딩과 커맨드                   업데이트
   View (유저 인터페이스)    <-     ViewModel(상태와 연산)  <-   Model(도메인 특화 데이터)
                       알림 전송                      알림 전송
 
@@ -86,13 +86,13 @@
     ~~~
       - v-text, {{ }} : innerText 속성에 연결, 태그 문자열을 HTML 인코딩하여 나타내기 때문에 화면에는 태그 문자열이 그대로 나타남
         ~~~
-        > model.message = "<i>HTML 태그는 어찌 되나?</i>"; 
+        > model.message = "<i>HTML 태그는 어찌 되나?</i>";
         > document.getElementById("simple").innerHTML
         ->> "<h2>&lt;i&gt;HTML 태그는 어찌 되나?&lt;/i&gt;</h2>"
         ~~~
-      - v-html : innerHTML 속성에 연결, 문자열을 파싱하여 화면에 나타냄 
+      - v-html : innerHTML 속성에 연결, 문자열을 파싱하여 화면에 나타냄
         ~~~
-        > model.message = "<i>HTML 태그는 어찌 되나?</i>"; 
+        > model.message = "<i>HTML 태그는 어찌 되나?</i>";
         > document.getElementById("simple").innerHTML
         ->> "<h2><i>HTML 태그는 어찌 되나?</i></h2>"
         ~~~
@@ -104,7 +104,7 @@
 		<input id="a" type="text" v-bind:value="message">
 		<br/>
 		<img v-bind:src="imagePath" />
-		
+
 		<script>
 		 var model = {
 					message: 'v-bind 디렉티브.',
@@ -143,12 +143,12 @@
 			});
 		</script>
 		</body>
-		</html>		
+		</html>
 		~~~
-		- 하나의 모델을 2개의 Vue 객체에서 참조 
+		- 하나의 모델을 2개의 Vue 객체에서 참조
 		- 사용자 입력 값을 뷰모델 객체를 통해 즉시 변경
 		- v-model 디렉티브 수식어
-			* lazy (v-model.lazy="name") : 입력폼에서 이벤트가 발생할 때, 입력한 값을 데이터와 동기화 
+			* lazy (v-model.lazy="name") : 입력폼에서 이벤트가 발생할 때, 입력한 값을 데이터와 동기화
 			* number : 숫자가 입력된 경우 number 타입의 값으로 자동 형변환
 			* trim : 문자열 앞뒤 공백을 자동제거
 	* v-show, v-if, v-else, v-else-if 디렉티브
@@ -172,17 +172,17 @@
 				balance: 0
 			    }
 			})
-		</script>	
+		</script>
 		~~~
 3. 반복 렌더링 디렉티브
-	* v-for 디렉티브 
-		1. 데이터가 배열형태 
+	* v-for 디렉티브
+		1. 데이터가 배열형태
 		~~~
 		<tr v-for="contact in contacts"></tr>
-		* 만약 인덱스틀 이용할 경우 
+		* 만약 인덱스틀 이용할 경우
 		<tr v-for="(contact,index) in contacts"></tr>
 		~~~
-		2. 데이터가 객체형태 
+		2. 데이터가 객체형태
 		~~~
 		<tr v-for="(val, key) in contacts"></tr>
 		* 만약 인덱스를 이용할 경우
@@ -197,19 +197,19 @@
 		- template 태그를 사용
 	* key 특성(Attribute)
 		- DOM 요소의 위치를 직접 변경하고자 한다면,
-		- key 특성에 기본키(Primary key) 값을 바인딩 
+		- key 특성에 기본키(Primary key) 값을 바인딩
 		~~~
 		<template v-for="(contact, index) in contacts">
 			<tr :key="contact.no">
 				<td>{{contact.no}}></td>
 				<td>{{contact.name}}></td>
 				<td>{{contact.tel}}></td>
-			</tr>		
+			</tr>
 		</template>
 		~~~
 		- 일반적으로 key 특성을 바인딩할 것을 권장하지만, 렌더링 속도가 개선된다고 말할 수는 없음
 		- v-for 디렉티브는 주로 배열의 데이터를 출력할 것인데, 배열 데이터가 변경될 때 추적이 되지 않는 작업이 있음
-			1. 배열 데이터를 인덱스 번호로 직접 변경할 경우 
+			1. 배열 데이터를 인덱스 번호로 직접 변경할 경우
 				- ex) list.contact[0] = {no:12, name:"12" ~~~}
 				- 이렇게 콘솔에서 변경해도 아무변화가 없음
 				- 하지만 속성을 변경할 경우, Vue 인스턴스 내부의 감시자가 추적해내기 때문에 즉시 변경됨 (list.contact[0].name = 'js')
@@ -237,9 +237,9 @@
 			}
 		}
 		})
-	</script>	
+	</script>
 	~~~
-	
+
 	* 주의사항
 		1. 함수 내부의 this
 			- 함수 안의 this는 Vue 객체 자신을 참조
@@ -249,44 +249,132 @@
 
 ## 3. Vue 인스턴스
 1. el, data, computed 옵션
+- data
+  - data 옵션에 주어진 모든 속성들은 Vue 인스턴스 내부에서 직접 이용되지 않음
+  - Vue 인스턴스와 Data 옵션에 주어진 객체 사이에 프록시(대리인)를 두어 처리
+  - data 옵션은 Vue 인스턴스가 관찰하는 데이터 객체를 의미 (변경사항은 즉시 감지)
+  - vm.$data.name
+- el
+  - Vue 인스턴스에 연결할 HTML DOM 요소를 지정
+  - 여러 개 요소에 지정할 수 없음
+  - el 옵션은 Vue 인스턴스를 생성할 때 미리 지정할 것을 권장
+  - Vue 인스턴스가 HTML 요소와 연결되면 도중에 연결된 요소를 변경할 수 없음
+- computed
+  - 이 옵션에서 지정한 값은 함수였지만, Vue 인스턴스는 프록시 처리하여 마치 속성처럼 취급
+  - vm.$options.computed.sum
+  - get / set function
+2. 메서드
+- Vue 인스턴스에서 사용할 메서드를 등록하는 옵션
+- Vue 인스턴스를 이용해 직접 호출하거나, 디렉티브 표현식, 콧수염 표현식으로 사용
+  ~~~
+  <input type="text" v-model="num"/>
+  1부터 입력된수의 합 : <span>{{sum()}}</span>
 
-	
-	
-
-					
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  var vm = new Vue({
+    el : "#example",
+    data : { num : 0},
+    methods : {
+      sum : function() {
+        var n = Number(this.num);
+        if(Number.isNaN(n) || n<1) return 0;
+        return ((1+n) * n) / 2;
+      }
+    }
+    })
+  ~~~
+- 계산형 속성과 메서드의 차이
+  - 최종적인 결과물은 같아보이지만, 내부 작동 방식에 차이가 있음
+  - 계산형 속성은 종속된 값에 의해 결과값이 캐싱이 됨
+  - 따라서, vm.num이 같은 값이 들어왔을 때, 계산형 속성은 값을 바로 리턴하지만, 메서드는 매번 수행
+- 메서드 작성 시 주의할 점
+  - ECMAScript6가 제공하는 <U>화살표 함수</U>를 사용해서는 안됨
+    - Arrow function(화살표 함수)은 function 키워드 대신 화살표(=>)를 사용하여 간략한 방법으로 함수를 선언하는 방법
+    - 화살표 함수 내부에서는 this가 Vue 인스턴스를 가리키지 않고, 전역 객체를 가르킴
+    - 메서드 내부에서는 보통 데이터 속성을 이용하기 때문에 this가 바뀌면 Vue 인스턴스 내부 데이터에 접근할 수 없음
+3. 관찰 속성
+- 계산형 속성 : 하나의 데이터 기반으로 다른 데이터를 변경할 필요가 있을 때 사용
+- 관찰 속성 : 주로 긴 처리 시간이 필요한 비동기 처리에 적합하다는 특징을 가짐
+  ~~~
+  <body>
+    <div id="example">
+        x : <input type="text" v-model="x" /> <br/>
+        y : <input type="text" v-model="y" /> <br/>
+        덧셈 결과 : {{sum}}
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#example",
+            data: {
+                x: 0,
+                y: 0,
+                sum: 0
+            },
+            watch: {
+                x: function(v) {
+                    console.log("## x 변경");
+                    var result = Number(v) + Number(this.y);
+                    if (isNaN(result)) this.sum = 0;
+                    else this.sum = result;
+                },
+                y: function(v) {
+                    console.log("## y 변경");
+                    this.y = v;
+                    var result = Number(this.x) + Number(v);
+                    if (isNaN(result)) this.sum = 0;
+                    else this.sum = result;
+                }
+            }
+        })
+    </script>
+  </body>
+  ~~~
+- function(v) {...}는 x속성 또는 y속성이 변경될 때 호출되는 함수
+- 하지만 이렇게 하면 값이 바뀔 때마다 매번 함수가 호출된다는 단점이 있음
+- 이런 경우 계산형 속성이 더 효과적임
+  ~~~
+  <body>
+    <div id="example">
+        x : <input type="text" v-model="x" /> <br/> y : <input type="text" v-model="y" /> <br/> 덧셈 결과 : {{sum}}
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#example",
+            data: {
+                x: 0,
+                y: 0
+            },
+            computed: {
+                sum: function() {
+                    var result = Number(this.x) + Number(this.y);
+                    if (isNaN(result)) return 0;
+                    else return result;
+                }
+            }
+        })
+    </script>
+  </body>
+  ~~~
+- 이렇게 작성하면 sum이 참조될 때만 해당 함수가 호출
+- 그렇다면 언제 관찰 속성이 유용할까?
+  - 긴 시간이 필요한 비동기 처리가 필요할 때
+  - 가장 대표적인 예는 외부 서버와의 통신 기능
+  - wath_Asynchronous(4) 예제 참고
+  - 이 예제는 계산형 속성으로 구현할 수 없음
+  - 계산형 속성은 값을 리턴해야 하기 때문에 동기적 처리만 수행이 가능함
+  - 비동기 처리가 필요한 경우 관찰 속성이나 이벤트 처리 방법을 적용
+4. v-cloak 디렉티브
+- 만약에 템플릿에 머스태쉬 코드를 작성했더라면 머스태쉬 태그가 그대로 나타났을겁니다.
+- 자바스크립트가 실행 되기전 즉, Vue 인스턴스가 제대로 준비되기 전 까지 우리의 템플렛을 위한 HTML 코드를 숨기고 싶을 때 사용
+5. Vue 인스턴스 라이프 사이클
+- Vue 인스턴스는 객체로 생성되고, 데이터에 대한 관찰 기능을 설정하는 등의 작업을 위해 초기화를 수행
+- 다양한 라이프 사이클 훅 메서드를 적용할 수 있음
+- Vue 컴포넌트를 만들고 관리할때 꽤 유용
+- [라이프 사이클 훅](https://vuejs.org/v2/guide/instance.html)
+  - beforeCreate : Vue 인스턴스가 생성되고 데이터에 대한 관찰 기능 및 이벤트 감시자 설정 전에 호출됨
+  - created : Vue 인스턴스가 생성된 후에 데이터에 대한 관찰 기능, 계산형 속성, 메서드, 감시자 설정이 완료된 후에 호출
+  - beforeMount : 마운트가 시작되기 전에 호출
+  - mounted : el에 vue 인스턴스의 데이터가 마운트 된 후에 호출
+  - beforeUpdate : 가상 DOM이 렌더링, 해치되기 전에 데이터가 변경될 때 호출, 이 훅에서 추가적인 상태 변경을 수행할 수 있음, 하지만 추가로 다시 렌더링을 하지는 않음
+  - updated : 데이터의 변경으로 가상 DOM이 다시 렌더링되고 패치된 후에 호출, 이 훅은 호출되었을 때는 이미 컴포넌트 DOM이 업데이트가된 상태, DOM에 종속성이 있는 연산을 이 단계에서 수행할 수 있음
+  - beforeDestroy : Vue 인스턴스가 제거되기 전에 호출
+  - destroyed : Vue 인스턴스가 제거된 후에 호출, 이 훅이 호출될 때는 Vue 인스턴스의 모든 디렉티브의 바인딩이 해제되고, 이벤트 연결도 모두 제거됨
