@@ -1,19 +1,19 @@
 # QuickStartVueJs (2019/2/10 ~)
-- [1. 시작하기](#part1)
+- [Part1. 시작하기](#part1)
   - Vue.js 란?
   - 개발 환경 설정
-- [2. Vue.js 기초](#part2)
+- [Part2. Vue.js 기초](#part2)
   - 기본 디렉티브
   - 반복 렌더링 디렉티브
   - 기타 디렉티브
   - 계산형 속성
-- [3. Vue 인스턴스](#part3)
+- [Part3. Vue 인스턴스](#part3)
   - el, data, computed 옵션
   - 메서드
   - 관찰 속성
   - v-cloak 디렉티브
   - Vue 인스턴스 라이프 사이클
-- [4. 이벤트 처리](#part4)
+- [Part4. 이벤트 처리](#part4)
   - 인라인 이벤트 처리
   - 이벤트 핸들러 메서드
   - 이벤트 객체
@@ -23,7 +23,7 @@
     - once 수식어
     - 키코드 수식어
     - 마우스 버튼 수식어
-- [5.스타일](#part5)
+- [Part5.스타일](#part5)
   - 스타일 적용
   - 인라인 스타일
   - CSS 클래스 바인딩
@@ -31,7 +31,7 @@
   - 컴포넌트에서의 스타일 적용
   - TodoList 예제
 ## Part1
-### 1. Vue.js?
+### Part1. Vue.js?
 - Angular, React에 비해 학습비용이 적음
 - MVVM 패턴 (Model - View - ViewModel) : 애플리케이션 로직과 UI의 분리를 위해 설계된 패턴
 - View는 HTML/CSS로 작성 / ViewModel은 View의 실제 논리 및 데이터 흐름을 담당
@@ -56,7 +56,7 @@
 ~~~
 
 ## Part2
-### 2. Vue.js 기초
+### Part2. Vue.js 기초
 1. 예제 분석
   ~~~
   <!DOCTYPE html>
@@ -283,7 +283,7 @@
 
 
 ## Part3
-### 3. Vue 인스턴스
+### Part3. Vue 인스턴스
 1. el, data, computed 옵션
 - data
   - data 옵션에 주어진 모든 속성들은 Vue 인스턴스 내부에서 직접 이용되지 않음
@@ -416,7 +416,7 @@
   - destroyed : Vue 인스턴스가 제거된 후에 호출, 이 훅이 호출될 때는 Vue 인스턴스의 모든 디렉티브의 바인딩이 해제되고, 이벤트 연결도 모두 제거됨
 
 ## Part4
-### 4. 이벤트 처리
+### Part4. 이벤트 처리
 1. 인라인 이벤트 처리
 - 이벤트는 v-on 디렉티브를 이용해서 처리
 - Click 이벤트를 가장 많이 씀
@@ -480,7 +480,7 @@ withdraw: function(e) {~~}
   3. 마우스 버튼 수식어
 
 ## Part5
-### 5. 스타일
+### Part5. 스타일
 1. 스타일 적용
 2. 인라인 스타일
 3. CSS 클래스 바인딩
