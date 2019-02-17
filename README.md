@@ -1,4 +1,36 @@
 # QuickStartVueJs (2019/2/10 ~)
+- [1. 시작하기](#part1)
+  - Vue.js 란?
+  - 개발 환경 설정
+- [2. Vue.js 기초](#part2)
+  - 기본 디렉티브
+  - 반복 렌더링 디렉티브
+  - 기타 디렉티브
+  - 계산형 속성
+- [3. Vue 인스턴스](#part3)
+  - el, data, computed 옵션
+  - 메서드
+  - 관찰 속성
+  - v-cloak 디렉티브
+  - Vue 인스턴스 라이프 사이클
+- [4. 이벤트 처리](#part4)
+  - 인라인 이벤트 처리
+  - 이벤트 핸들러 메서드
+  - 이벤트 객체
+  - 기본 이벤트
+  - 이벤트 전파와 버블링
+  - 이벤트 수식어
+    - once 수식어
+    - 키코드 수식어
+    - 마우스 버튼 수식어
+- [5.스타일](#part5)
+  - 스타일 적용
+  - 인라인 스타일
+  - CSS 클래스 바인딩
+  - 계산형 속성, 메서드를 이용한 스타일 적용
+  - 컴포넌트에서의 스타일 적용
+  - TodoList 예제
+## Part1
 ### 1. Vue.js?
 - Angular, React에 비해 학습비용이 적음
 - MVVM 패턴 (Model - View - ViewModel) : 애플리케이션 로직과 UI의 분리를 위해 설계된 패턴
@@ -22,6 +54,8 @@
    3. 크롬 브라우저 및 Vue.js devtools 설치 - 디버깅
    4. Vue-CLI 설치 - [sudo npm install -g yarn @vue/cli]
 ~~~
+
+## Part2
 ### 2. Vue.js 기초
 1. 예제 분석
   ~~~
@@ -247,7 +281,9 @@
 		2. 데이터 타입
 			- HTML 요소 내부에서는 모두 문자열로 다루어지므로, Number(), parseInt() 함수를 이용해 명시적으로 숫자 값을 변환해주어야 한다.
 
-## 3. Vue 인스턴스
+
+## Part3
+### 3. Vue 인스턴스
 1. el, data, computed 옵션
 - data
   - data 옵션에 주어진 모든 속성들은 Vue 인스턴스 내부에서 직접 이용되지 않음
@@ -378,3 +414,152 @@
   - updated : 데이터의 변경으로 가상 DOM이 다시 렌더링되고 패치된 후에 호출, 이 훅은 호출되었을 때는 이미 컴포넌트 DOM이 업데이트가된 상태, DOM에 종속성이 있는 연산을 이 단계에서 수행할 수 있음
   - beforeDestroy : Vue 인스턴스가 제거되기 전에 호출
   - destroyed : Vue 인스턴스가 제거된 후에 호출, 이 훅이 호출될 때는 Vue 인스턴스의 모든 디렉티브의 바인딩이 해제되고, 이벤트 연결도 모두 제거됨
+
+## Part4
+### 4. 이벤트 처리
+1. 인라인 이벤트 처리
+- 이벤트는 v-on 디렉티브를 이용해서 처리
+- Click 이벤트를 가장 많이 씀
+~~~
+v-on:click="balance += parseInt(amount)"
+~~~
+- v-on 디렉티브는 @로 줄여쓸 수 있음
+~~~
+@click="balance += parseInt(amount)"
+~~~
+- Vue 인스턴스에 등록한 메서드를 이벤트 처리 함수로 연결할 수 있음
+
+2. 이벤트 핸들러 메서드
+- 복잡한 기능은 메서드를 미리 작성해두고, v-on 디렉티브로 참조해서 이벤트 처리를 수행
+~~~
+<button id="deposit" v-on:click="deposit" class="btn btn-primary">예금</button>
+<button id="withdraw" v-on:click="withdraw" class="btn btn-primary">인출</button>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#example",
+        data: {
+            amount: 0,
+            balance: 0
+        },
+        methods: {
+            deposit: function(e) {
+                var amt = parseInt(this.amount);
+                if (amt < 0) {
+                    alert('0원보다 큰 값을 넣어주세요');
+                } else {
+                    this.balance += amt;
+                }
+            },
+            withdraw: function(e) {
+                var amt = parseInt(this.amount);
+                if (amt <= 0) {
+                    alert('0보다 큰 값을 인출할 수 있습니다');
+                } else if (amt > this.balance) {
+                    alert('잔고보다 많은 금액을 인출할 수 없습니다.')
+                } else {
+                    this.balance -= amt;
+                }
+            },
+        }
+    })
+</script>
+~~~
+3. 이벤트 객체
+- 이벤트를 처리 하는 객체는 첫 번째 파라미터로 이벤트 객체를 전달받음
+~~~
+deposit: function(e) {~~}
+withdraw: function(e) {~~}
+~~~
+- 이벤트 객체(e)를 통해 이용할 수 있는 정보가 많음
+- [이벤트 객체 정보](https://skout90.github.io/2018/01/20/Vue/4.이벤트/)
+4. 기본 이벤트
+5. 이벤트 전파와 버블링
+6. 이벤트 수식어
+  1. once 수식어
+  2. 키코드 수식어
+  3. 마우스 버튼 수식어
+
+## Part5
+### 5. 스타일
+1. 스타일 적용
+2. 인라인 스타일
+3. CSS 클래스 바인딩
+4. 계산형 속성, 메서드를 이용한 스타일 적용
+5. 컴포넌트에서의 스타일 적용
+6. TodoList 예제
+
+### 6. 컴포넌트 기초
+1. 컴포넌트 조합
+2. 컴포넌트의 속성
+3. DOM 템플릿 구문 작성 시 주의 사항
+4. 컴포넌트에서의 data 옵션
+5. props와 event
+  1. props를 이용한 정보 전달
+  2. event를 이용한 정보 전달
+  3. props와 event 에제
+6. 이벤트 버스 객체를 이용한 통신
+7. TodoList 실전 예제
+
+### 7. ECMAScript 2015
+1. ES2015를 사용하기 위한 프로젝트 설정
+2. let과 const
+3. 기본 파라미터와 가변 파라미터
+4. 구조분해 할당(destructuring assignment)
+5. 화살표 함수(Arrow function)
+6. 새로운 객체 리터럴
+7. 템플릿 리터럴
+8. 컬렉션
+9. 클래스
+10. 모듈
+11. Promise
+12. 전개 연산자(Spread Operator)
+
+### 8. Vue-CLI 도구
+1. Vue CLI의 구성요소와 설치
+2. 프로젝트 생성과 기본 사용법
+  1. 프로젝트 생성
+  2. 명령어 기본 사용법
+  3. vue-cli-service
+3. 플러그인
+4. vue.config.js
+5. Vue CLI GUI 도구
+
+### 9. 컴포넌트 심화
+1. 단일 파일 컴포넌트
+2. 컴포넌트에서의 스타일
+  1. 범위 CSS(Scoped CSS)
+  2. CSS 모듈(CSS Module)
+3. 슬롯
+  1. 슬롯의 기본 사용법
+  2. 명명된 슬롯
+  3. 범위 슬롯
+4. 동적 컴포넌트
+5. 재귀 컴포넌트
+
+### 10. axios를 이용한 서버통신
+1. 서비스 API 소개
+2. axios 기능 테스트
+  1. http 프록시 설정
+  2. axios 사용
+  3. axios 요청 방법
+  4. axios 응답 형석
+  5. 기타 메서드
+  6. 파일 업로드 처리
+  7. axios 요청과 config 옵션
+  8. Vue 인스턴스에서 axios 이용하기
+  9. axios 사용 시 주의 사항
+3. 연락처 애플리케이션 예제
+  1. 기초 작업
+  2. App.vue 작성
+  3. ContactList.vue 작성
+  4. 입력폼, 수정폼 작성
+  5. 사진 변경폼 작성
+4. 정리
+
+### 11. Vuex를 이용한 상태 관리
+1. 왜 Vuex를 사용하는가?
+2. Vuex란?
+3. 상태와 변이
+  1. 상태와 변이 적용 예제
+  2. 헬퍼 메서드
+4. 게터
