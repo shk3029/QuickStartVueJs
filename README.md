@@ -473,11 +473,125 @@ withdraw: function(e) {~~}
 - 이벤트 객체(e)를 통해 이용할 수 있는 정보가 많음
 - [이벤트 객체 정보](https://skout90.github.io/2018/01/20/Vue/4.이벤트/)
 4. 기본 이벤트
+  - HTML 문서나 요소에 어떤 기능을 실행하도록 이미 정의되어 있는 이벤트
+    - a 태그 요소를 클릭했을 때, href 특성의 경로로 페이지 이동
+    - 브라우저 화면 마우스 오른쪽 클릭하면 내장 컨텍스트 메뉴가 나타남
+    - 폼 태그 요소 내부의 submit 버튼을 클릭했을 때, action 특성에 지정된 경로로 method 특성에 지정된 방식으로 전송
+    - input 타입 text 요소에 키보드를 누르면 입력한 문자가 텍스트 박스에 나타남
+    - 등등..
+  - 기본 이벤트의 실행을 막는 방법
+    ~~~
+    <div id="example" v-on:contextmenu="ctxStop">
+      <a href="https://facebook.com" @click="confirmFB">페이스북</a>
+    </div>
+
+    methods: {
+      ctxStop: function(e) {
+          e.preventDefault();
+      },
+      confirmFB: function(e) {
+          if (!confirm('페이스북으로 이동할까요?')) {
+              e.preventDefault();
+          }
+      }
+    }
+    ~~~
+    - 최근에 기본 이벤트의 실행을 막는 주된 이유는 브라우저 화면에서 마우스 오른쪽 버튼을 클릭할 때, 개발자가 직접 작성한 메뉴를 나타내기 위한 경우가 많음
+    - 하지만 매번 개발자가 e.preventDefault()를 신경쓰기는 쉽지 않음
+    ~~~
+      * 아래처럼 작성하면 e.preventDefault()를 안써도되지만, 조건 논리식 결과에 따른 호출일 경우는 써줘야한다.
+
+      <div id="example" v-on:contextmenu.prevent="ctxStop">
+      </div>
+    ~~~
 5. 이벤트 전파와 버블링
+  - HTML 문서의 이벤트 처리는 3단계를 거침
+    - 1단계 : 이벤트 포착 단계(CAPTURING_PHASE)
+      - 문서 내 요소 또는 문서 밖에서부터 이벤트를 발생시킨 HTML 요소까지 포착
+    - 2단계 : 이벤트 발생 단계(RAISING_PHASE : AT_TARGET)
+      - 요소의 이벤트에 연결된 함수를 직접 호출
+    - 3단게 : 버블링(BUBBLING_PHASE) 단계
+      - 이벤트가 발생한 요소로부터 상위 요소로 거슬러 올라가면서 동일한 이벤트를 호출
+    - 일반적으로 2단계, 3단계에서 연결된 이벤트 함수가 호출
+    ~~~
+    예제)
+    <div id="example">
+      <div id="outer" @click="outerClick">
+          <div id="inner" @click="innerClick"></div>
+      </div>
+    </div>
+
+    methods: {
+        outerClick: function(e) {
+            console.log("### outer click");
+            console.log("Event phase : ", e.eventPhase);
+            console.log("Current target : ", e.currentTarget);
+            console.log("Target : ", e.target);
+        },
+        innerClick: function(e) {
+            console.log("### inner click");
+            console.log("Event phase : ", e.eventPhase);
+            console.log("Current target : ", e.currentTarget);
+            console.log("Target : ", e.target);
+        }
+    }
+    ~~~
+    - #inner 클릭하면 #inner, #outer click 이벤트 모두 발생
+    - #outer 클릭하면 #outer click 이벤트만 발생
+    - BUBBLING_PHASE일 때와 RAISING_PHASE일 때 정보가 다름
+    - 즉, currentTarget과 target 값이 서로 다름
+      - 버블링 단계에서의 target은 이벤트가 일어난 원본 요소
+    - 이벤트 버블링은 막아야한다 (#inner 클릭했을 때 상위 요소로의 이벤트 전파)
+      - stopPropagation() 메서드를 호출해서 막을 수 있음
+      ~~~
+      methods: {
+          outerClick: function(e) {
+              e.stopPropagation();
+          },
+          innerClick: function(e) {
+              e.stopPropagation();
+          }
+        }
+        })
+      ~~~
+      - 또는 이벤트 수식어로 대체할 수 있음
+        - .stop : 이벤트 전파를 중단
+          ~~~
+          @click.stop="outerClick"
+          @click.stop="innerClick"
+          ~~~
+        - .capture : CAPTURING_PHASE 단계에서만 이벤트가 발생
+          ~~~
+          * 위 코드들과 다른 기능
+          @click.capture.stop="outerClick"
+          @click.stop="innerClick"
+          -> #inner 클릭하더라도 CAPTURING_PHASE에서 outerClick이 호출되고 나서 즉시 stop
+          즉, 이벤트 포착(capture) 단계에서 전파를 중지
+          (outerClick만 호출되고 더 이상 이벤트 발생은 일어나지 않음)
+          ~~~
+        - .self : RAISING_PHASE 단계일 때만 이벤트가 발생
+
 6. 이벤트 수식어
-  1. once 수식어
-  2. 키코드 수식어
-  3. 마우스 버튼 수식어
+  - once 수식어 : 한 번만 이벤트를 발생
+    ~~~
+    v-on:click.once="method"
+    ~~~
+  - 키코드 수식어 : 키보드 관련 이벤트 처리할 때 사용할 수 있는 수식어
+    ~~~
+    13(enter)
+    v-on:keyup.13="search"
+
+    methods : {
+      search :function(e) {
+        ~~~
+      }
+    }
+    ~~~
+  - 마우스 버튼 수식어 (.left, .right, .middle)
+    ~~~
+      <div id="example" v-on:contextmenu.prevent="method"
+        @mouseup.left="leftMethod" @mouseup.right="rightMethod">
+    ~~~
 
 ## Part5
 ### Part5. 스타일
