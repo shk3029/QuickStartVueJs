@@ -1,4 +1,4 @@
-# QuickStartVueJs
+# QuickStartVueJs (2019/2/10 ~)
 ### 1. Vue.js?
 - Angular, React에 비해 학습비용이 적음
 - MVVM 패턴 (Model - View - ViewModel) : 애플리케이션 로직과 UI의 분리를 위해 설계된 패턴
